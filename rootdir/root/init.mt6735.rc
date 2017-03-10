@@ -62,20 +62,8 @@ on init
     mkdir /storage/usbotg 0700 root root
 # mount different fs start
 
-on property:persist.mediatek.fg.disable=1
-    write /sys/devices/platform/battery_meter/FG_daemon_disable 1
-
-
-on property:persist.mediatek.fg.log.enable=1
-		chmod 0666 /dev/kmsg
-    write /sys/devices/platform/battery_meter/FG_daemon_log_level 7
-    write /proc/sys/kernel/printk 8
-
 on charger
     mount ext4 /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system /system ro wait
-		chmod 0666 /dev/kmsg
-		write /sys/devices/platform/battery_meter/FG_daemon_log_level 7
-    start fuelgauged
     start kpoc_charger
     start servicemanager
 
@@ -208,9 +196,6 @@ on post-fs-data
     chmod 666 /dev/mali0
     #chown system graphics /dev/mali
 
-    # Smart PA
-    chmod 777 /dev/i2c_smartpa
-
     # Touch Panel
     # chmod 0664 /dev/touch
     chown root diag /sys/module/tpd_setting/parameters/tpd_calmat
@@ -290,10 +275,6 @@ on post-fs-data
     chown system system /dev/gyroscope
     chown system system /dev/aal_als
 
-    chmod 0664 /dev/isdbt
-    chown system system /dev/isdbt
-
-    chmod 0777 /system/bin/memsicp
     chmod 0660 /sys/class/misc/m_acc_misc/accenablenodata
     chmod 0660 /sys/class/misc/m_acc_misc/accactive
     chmod 0660 /sys/class/misc/m_acc_misc/accdelay
@@ -304,7 +285,6 @@ on post-fs-data
     chown system system /sys/class/misc/m_acc_misc/accdelay
     chown system system /sys/class/misc/m_acc_misc/accbatch
     chown system system /sys/class/misc/m_acc_misc/accflush
-    chown system system /system/bin/memsicp
 
     chmod 0660 /sys/class/misc/m_mag_misc/magactive
     chmod 0660 /sys/class/misc/m_mag_misc/magdelay
@@ -1372,7 +1352,14 @@ service qmc5983d /system/bin/qmc5983d
 	 user system
     group system
     class main
-
+    # yudengwu@wind-mobi.com begin
+service qmcX983d /system/bin/qmcX983d
+     disabled
+	 user system
+    group system
+    class main
+	oneshot
+    # yudengwu@wind-mobi.com end
 service orientationd /system/bin/orientationd
     disabled
     user system

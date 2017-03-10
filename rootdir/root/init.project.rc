@@ -103,15 +103,6 @@ on post-fs-data
     mknod /dev/ampc0 c 151 0
     chown bluetooth bluetooth /dev/ampc0
     chmod 0660 /dev/ampc0
-    
-    chmod 0666 /proc/mtk_battery_cmd/current_cmd
-    chown system system /proc/mtk_battery_cmd/current_cmd
-    chmod 0666 /proc/agingtest
-    chown system system /proc/agingtest
-    chmod 0666 /proc/ftxxxx-debug
-    chown system system /proc/ftxxxx-debug
-    chmod 0666 /sys/class/syna/gesenable
-    chown system system /sys/class/syna/gesenable
 
 # for gesture
     chown system system /sys/devices/mx_tsp/gesture_control
